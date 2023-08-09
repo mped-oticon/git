@@ -822,3 +822,20 @@ void strbuf_utf8_align(struct strbuf *buf, align_type position, unsigned int wid
 	} else if (position == ALIGN_RIGHT)
 		strbuf_addf(buf, "%*s", width + utf8_compensation, s);
 }
+
+unsigned long utf8_bytes_truncate_line(const char *line, size_t max_bytes)
+{
+	const char *cursor = line;
+	size_t accepted = 0;
+
+	while (cursor[0]) {
+		(void) pick_one_utf8_char(&cursor, NULL);
+
+		if (cursor - line <= max_bytes)
+			accepted = cursor - line;
+		else
+			return accepted;
+	}
+
+	return accepted;
+}

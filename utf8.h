@@ -106,4 +106,11 @@ int has_prohibited_utf_bom(const char *enc, const char *data, size_t len);
  */
 int is_missing_required_utf_bom(const char *enc, const char *data, size_t len);
 
+/*
+ * Report the number of bytes occupied by a byte-truncated NUL-terminated UTF-8 string.
+ * The string is truncated to the end of the last fully decoded Unicode code point
+ * that still can fit within 'max_bytes'.
+ */
+unsigned long utf8_bytes_truncate_line(const char *line, size_t max_bytes);
+
 #endif
